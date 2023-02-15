@@ -6,6 +6,7 @@ import Header from "../Shared/Header/Header";
 const Main = () => {
     return (
         <div>
+            {/* header and footer sob route a common thakbei  */}
             <Header></Header>
             <Outlet></Outlet>
             <Footer></Footer>

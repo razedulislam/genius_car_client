@@ -1,8 +1,20 @@
+import { getAuth, signOut } from "firebase/auth";
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.svg";
+import app from "../../firebase.init";
 
 const Header = () => {
+    const auth = getAuth(app);
+    const Signout = () => {
+        signOut(auth)
+            .then(() => {
+                console.log("Sign-out successful");
+            })
+            .catch((error) => {
+                // An error happened.
+            });
+    };
     const menuItems = (
         <>
             <li className="font-bold">
@@ -37,6 +49,9 @@ const Header = () => {
                 <ul className="menu menu-horizontal px-1">{menuItems}</ul>
             </div>
             <div className="navbar-end">
+                <button onClick={Signout} className="mx-5">
+                    Sign Out
+                </button>
                 <button className="btn btn-accent text-white">Appointment</button>
             </div>
         </div>

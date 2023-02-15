@@ -1,5 +1,5 @@
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import React from "react";
+import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import login from "../../assets/images/login/login.svg";
 import app from "../../firebase.init";
@@ -7,6 +7,23 @@ import app from "../../firebase.init";
 const auth = getAuth(app);
 
 const Login = () => {
+    const auth = getAuth();
+
+    const currentUser = auth.currentUser;
+    const [user, setUser] = useState({});
+    console.log(user);
+    const provider = new GoogleAuthProvider();
+
+    const googleSignIn = () => {
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                console.log("User sign in");
+                setUser(result.user);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
     const inputHandle = (e) => {
         e.preventDefault();
         const email = e.target.email.value;
@@ -56,6 +73,11 @@ const Login = () => {
                             {/* <button className="btn btn-primary">Login</button> */}
                         </div>
                     </form>
+                    <Link>
+                        <h1 onClick={googleSignIn} className="text-center my-3 text-bold">
+                            Google In
+                        </h1>
+                    </Link>
                     <p className="text-center pb-5">
                         Create a new account{" "}
                         <Link to="/signup" className="text-orange-600 font-bold">

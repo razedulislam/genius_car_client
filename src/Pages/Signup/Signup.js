@@ -4,6 +4,7 @@ import app from "../../firebase.init";
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const auth = getAuth(app);
+
 const Signup = () => {
     const provider = new GoogleAuthProvider();
     const inputSignUpHandle = (e) => {
