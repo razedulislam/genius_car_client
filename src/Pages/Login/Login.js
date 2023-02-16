@@ -5,11 +5,11 @@ import login from "../../assets/images/login/login.svg";
 import app from "../../firebase.init";
 
 const auth = getAuth(app);
-
 const Login = () => {
     const auth = getAuth();
 
     const currentUser = auth.currentUser;
+    console.log(currentUser.accessToken);
     const [user, setUser] = useState({});
     console.log(user);
     const provider = new GoogleAuthProvider();

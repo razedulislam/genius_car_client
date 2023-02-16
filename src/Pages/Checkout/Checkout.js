@@ -1,4 +1,4 @@
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 import { Link, useLoaderData } from "react-router-dom";
 import app from "../../firebase.init";
@@ -8,7 +8,6 @@ const Checkout = () => {
 
     const auth = getAuth(app);
     const user = auth.currentUser;
-
     const handleUser = (e) => {
         e.preventDefault();
         const firstName = e.target.firstName.value;
@@ -16,6 +15,16 @@ const Checkout = () => {
         const phone = e.target.yourPhone.value;
         const email = e.target.email.value;
         const message = e.target.message.value;
+
+        // Regular expression to validate phone number
+        const phoneRegex = /^\+?\d{10,14}$/;
+
+        // Check if the phone number is valid
+        if (!phoneRegex.test(phone)) {
+            alert("Please enter a valid phone number.");
+            return;
+        }
+
         const order = {
             Service: _id,
             ServiceName: category,
@@ -27,10 +36,6 @@ const Checkout = () => {
             message,
         };
 
-        // if (phone.length >= 10) {
-        //     alert("phone number must me 10 character");
-        // }
-
         fetch("http://localhost:5000/orders", {
             method: "POST",
             headers: {
@@ -40,8 +45,9 @@ const Checkout = () => {
         })
             .then((res) => res.json())
             .then((data) => console.log(data))
-            .then((error) => console.log(error));
+            .catch((error) => console.log(error));
     };
+
     return (
         <div>
             {!user ? (
@@ -54,7 +60,7 @@ const Checkout = () => {
                     <form action="" onSubmit={handleUser}>
                         <h1>Check out</h1>
                         <h1 className="text-4xl text-orange-600">
-                            {category} and Prince is {price}
+                            {category} and Prince is ${price}
                         </h1>
                         <div className="grid gap-4 gril-cols-1 md:grid-cols-2 mb-5">
                             <input name="firstName" type="text" placeholder="First Name" className="input input-bordered input-warning w-full " required />
