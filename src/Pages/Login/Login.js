@@ -4,26 +4,24 @@ import { Link } from "react-router-dom";
 import login from "../../assets/images/login/login.svg";
 import app from "../../firebase.init";
 
-const auth = getAuth(app);
 const Login = () => {
-    const auth = getAuth();
-
-    const currentUser = auth.currentUser;
-    console.log(currentUser.accessToken);
+    const auth = getAuth(app);
     const [user, setUser] = useState({});
     console.log(user);
     const provider = new GoogleAuthProvider();
 
-    const googleSignIn = () => {
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                console.log("User sign in");
-                setUser(result.user);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+    const googleSignIn = async () => {
+        try {
+            const response = await signInWithPopup(auth, provider);
+            console.log("User sign in", response);
+            setUser(response.user);
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
     };
+
     const inputHandle = (e) => {
         e.preventDefault();
         const email = e.target.email.value;

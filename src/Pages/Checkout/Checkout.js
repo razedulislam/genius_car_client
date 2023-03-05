@@ -22,9 +22,8 @@ const Checkout = () => {
         // Check if the phone number is valid
         if (!phoneRegex.test(phone)) {
             alert("Please enter a valid phone number.");
-            return;
         }
-
+        alert("Please enter a valid phone number.");
         const order = {
             Service: _id,
             ServiceName: category,
@@ -36,7 +35,8 @@ const Checkout = () => {
             message,
         };
 
-        fetch("http://localhost:5000/orders", {
+        // fetch("http://localhost:5000/orders", {
+        fetch("https://genius-car-server-u1gu.onrender.com/orders", {
             method: "POST",
             headers: {
                 "content-type": "application/json",
